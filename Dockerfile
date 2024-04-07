@@ -20,9 +20,9 @@ RUN /getpaperserver.sh ${version}
 ################## Download Plugins ####################
 ########################################################
 WORKDIR /opt/minecraft/plugins
-COPY ./abstractGetServerPlugins.sh /
-RUN chmod +x /abstractGetServerPlugins.sh
-RUN /abstractGetServerPlugins.sh
+COPY ./getPlugins.sh /
+RUN chmod +x /getPlugins.sh
+RUN /getPlugins.sh
 
 ########################################################
 ############## Running environment #####################
