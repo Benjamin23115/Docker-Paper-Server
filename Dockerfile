@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y webp
 WORKDIR /data
 
 # Obtain runable jar from build stage
-COPY --from=build /opt/minecraft/paperclip.jar /opt/minecraft/paperspigot.jar
+COPY --from=build /opt/minecraft/minecraftspigot.jar /opt/minecraft/paperspigot.jar
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.6.4
@@ -53,7 +53,7 @@ EXPOSE 25565/tcp
 EXPOSE 25565/udp
 
 # Set memory size
-ARG memory_size=1G
+ARG memory_size=6G
 ENV MEMORYSIZE=$memory_size
 
 # Set Java Flags
