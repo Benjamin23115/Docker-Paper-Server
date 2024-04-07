@@ -8,7 +8,6 @@ LABEL Marc Tönsing <marc@marc.tv>
 
 ARG version=1.20.4
 
-
 ########################################################
 ############## Download Paper with API #################
 ########################################################
@@ -16,6 +15,14 @@ WORKDIR /opt/minecraft
 COPY ./getpaperserver.sh /
 RUN chmod +x /getpaperserver.sh
 RUN /getpaperserver.sh ${version}
+
+########################################################
+################## Download Plugins ####################
+########################################################
+WORKDIR /opt/minecraft/plugins
+COPY ./abstractGetServerPlugins.sh /
+RUN chmod +x /abstractGetServerPlugins.sh
+RUN /abstractGetServerPlugins.sh
 
 ########################################################
 ############## Running environment #####################
