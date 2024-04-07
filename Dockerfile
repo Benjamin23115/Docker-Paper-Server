@@ -51,9 +51,11 @@ VOLUME "/data"
 # Expose minecraft port
 EXPOSE 25565/tcp
 EXPOSE 25565/udp
+EXPOSE 19132/tcp
+EXPOSE 19132/udp
 
 # Set memory size
-ARG memory_size=6G
+ARG memory_size=4G
 ENV MEMORYSIZE=$memory_size
 
 # Set Java Flags
