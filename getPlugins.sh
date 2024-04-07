@@ -15,7 +15,9 @@ download_plugin() {
         echo "Failed to download $plugin_name."
     fi
 }
-
+# Make folder "plugins" to store all of the downloaded plugins
+mkdir plugins
+cd plugins
 # EssentialsX for useful commands
 ESSENTIALSX_VERSION="2.21.0-dev+76-71ca7ff"
 PLUGIN_URL_PREFIX="https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/"
@@ -39,20 +41,20 @@ done
 
 # LuckPerms to handle permissions
 LUCK_PERMS_DOWNLOAD_URL="https://download.luckperms.net/1534/bukkit/loader/LuckPerms-Bukkit-5.4.121.jar"
-download_plugin "Luck Perms" "$LUCK_PERMS_DOWNLOAD_URL"
+download_plugin "luckPerms" "$LUCK_PERMS_DOWNLOAD_URL"
 
 # Right Click Harvest for QOL farming
 RIGHT_CLICK_HARVEST_DOWNLOAD_URL="https://dev.bukkit.org/projects/rightclickharvest/files/latest"
-download_plugin "Right Click Harvest" "$RIGHT_CLICK_HARVEST_DOWNLOAD_URL"
+download_plugin "rightClickHarvest" "$RIGHT_CLICK_HARVEST_DOWNLOAD_URL"
 
 # Sleep Most for QOL day-night cycles
 SLEEP_MOST_DOWNLOAD_URL="https://www.spigotmc.org/resources/sleep-most-1-8-1-20-x-the-most-advanced-sleep-plugin-available-percentage-animations.60623/download?version=528694"
-download_plugin "Sleep Most" "$SLEEP_MOST_DOWNLOAD_URL"
+download_plugin "sleepMost" "$SLEEP_MOST_DOWNLOAD_URL"
 
 # Cristichi's Tree Capitator for QOL Tree chopping
 CRIS_TREE_CAPITATOR_DOWNLOAD_URL="https://dev.bukkit.org/projects/cristichis-tree-capitator/files/latest"
-download_plugin "Cristichi's Tree Capitator" "$CRIS_TREE_CAPITATOR_DOWNLOAD_URL"
+download_plugin "cris-tree-capitator" "$CRIS_TREE_CAPITATOR_DOWNLOAD_URL"
 
 # Instant Restock for QOL Villager Trading
 INSTANT_RESTOCK_DOWNLOAD_URL="https://github.com/spartacus04/InstantRestock/releases/download/2.4.2/instantrestock_2.4.2.jar"
-download_plugin "Instant Restock" "$INSTANT_RESTOCK_DOWNLOAD_URL"
+download_plugin "instantRestock" "$INSTANT_RESTOCK_DOWNLOAD_URL"
