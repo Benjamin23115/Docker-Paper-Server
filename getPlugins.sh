@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Function to download plugin
 download_plugin() {
     local plugin_name="$1"
