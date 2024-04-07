@@ -2,7 +2,7 @@
 ############## We use a java base image ################
 ########################################################
 FROM eclipse-temurin:21-jre AS build
-RUN apt-get update -y && apt-get install -y curl jq
+RUN apt-get update -y && apt-get install -y curl jq bash
 
 LABEL Marc Tönsing <marc@marc.tv>
 
@@ -19,10 +19,10 @@ RUN /getpaperserver.sh ${version}
 ########################################################
 ################## Download Plugins ####################
 ########################################################
-WORKDIR /opt/minecraft/plugins
+WORKDIR /opt/minecraft
 COPY ./getPlugins.sh /
 RUN chmod +x /getPlugins.sh
-RUN /getPlugins.sh
+RUN bash /getPlugins.sh
 
 ########################################################
 ############## Running environment #####################
@@ -45,6 +45,9 @@ WORKDIR /data
 
 # Obtain runable jar from build stage
 COPY --from=build /opt/minecraft/minecraftspigot.jar /opt/minecraft/paperspigot.jar
+
+#Obtain plugin jars from build stage
+COPY --from=build /opt/minecraft/plugins/*.jar /data/plugins/
 
 # Install and run rcon
 ARG RCON_CLI_VER=1.6.4
@@ -75,9 +78,8 @@ ENV PAPERMC_FLAGS=$papermc_flags
 
 WORKDIR /data
 
-COPY /docker-entrypoint.sh /opt/minecraft
+COPY ./docker-entrypoint.sh /opt/minecraft
 RUN chmod +x /opt/minecraft/docker-entrypoint.sh
 
-# Entrypoint
 ENTRYPOINT ["/opt/minecraft/docker-entrypoint.sh"]
 
