@@ -28,4 +28,4 @@ fi
 # sets the home directory to the home directory of the docker use
 export HOME=/home/$DOCKER_USER
 # using gosu runs the minecraft server with the preset memory size, java flags and paper flags
-exec gosu $DOCKER_USER:$DOCKER_GROUP java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
+exec $DOCKER_USER:$DOCKER_GROUP java -jar -Xms$MEMORYSIZE -Xmx$MEMORYSIZE $JAVAFLAGS /opt/minecraft/paperspigot.jar $PAPERMC_FLAGS nogui
