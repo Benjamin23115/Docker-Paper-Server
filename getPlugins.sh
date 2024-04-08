@@ -9,7 +9,7 @@ download_plugin() {
 
     curl -o "$plugin_name.jar" -L "$download_url"
 
-    if [[ $? -eq 0 ]]; then
+    if [ $? -eq 0 ]; then
         echo "Download of $plugin_name successful."
     else
         echo "Failed to download $plugin_name."

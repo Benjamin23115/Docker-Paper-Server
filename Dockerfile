@@ -2,9 +2,7 @@
 ############## We use a java base image ################
 ########################################################
 FROM eclipse-temurin:21-jre AS build
-RUN apt-get update -y && apt-get install -y curl jq bash
-
-LABEL Marc Tönsing <marc@marc.tv>
+RUN apt-get update -y && apt-get install -y curl jq
 
 ARG version=1.20.4
 
@@ -22,23 +20,13 @@ RUN /getpaperserver.sh ${version}
 WORKDIR /opt/minecraft
 COPY ./getPlugins.sh /
 RUN chmod +x /getPlugins.sh
-RUN bash /getPlugins.sh
+RUN /getPlugins.sh
 
 ########################################################
 ############## Running environment #####################
 ########################################################
 FROM eclipse-temurin:21-jre AS runtime
 ARG TARGETARCH
-# Install gosu
-RUN set -eux; \
-  apt-get update; \
-  apt-get install -y gosu; \
-  rm -rf /var/lib/apt/lists/*; \
-  # verify that the binary works
-  gosu nobody true
-
-# Install webp (e.g. for Dynmap) Might not be available on ARM (RPI)
-RUN apt-get update && apt-get install -y webp
 
 # Working directory
 WORKDIR /data
@@ -48,12 +36,6 @@ COPY --from=build /opt/minecraft/minecraftspigot.jar /opt/minecraft/paperspigot.
 
 #Obtain plugin jars from build stage
 COPY --from=build /opt/minecraft/plugins/*.jar /data/plugins/
-
-# Install and run rcon
-ARG RCON_CLI_VER=1.6.4
-ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${TARGETARCH}.tar.gz /tmp/rcon-cli.tgz
-RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
-  rm /tmp/rcon-cli.tgz
 
 # Volumes for the external data (Server, World, Config...)
 VOLUME "/data"
