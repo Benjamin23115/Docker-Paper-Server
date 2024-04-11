@@ -19,13 +19,18 @@ download_plugin() {
 mkdir plugins
 cd plugins
 # EssentialsX for useful commands
-ESSENTIALSX_VERSION="2.21.0-dev+76-71ca7ff"
-PLUGIN_URL_PREFIX="https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/"
-
-for plugin_name in "EssentialsX" "EssentialsXChat" "EssentialsXSpawn"; do
-    download_plugin "$plugin_name" "$PLUGIN_URL_PREFIX${plugin_name}-${ESSENTIALSX_VERSION}.jar"
+# The indices are the order of the artifacts in the JSON response from the Jenkins API. 0 is the core EssentialsX plugin, 2 is chat, 7 is spawn.
+indices=(0 2 7)
+ESSENTIALSX_URL="https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/"
+for index in "${indices[@]}"; do
+    for plugin_name in "EssentialsX" "EssentialsXChat" "EssentialsXSpawn"; do
+        ESSENTIALSX_PLUGIN_NAME=$(curl -s "https://ci-api.essentialsx.net/job/EssentialsX/lastSuccessfulBuild/api/json" | jq -r ".artifacts[$index].displayPath")
+        # Remove quotes around the artifact name
+        ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME%\"}"
+        ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME#\"}"
+        download_plugin "$plugin_name" "$ESSENTIALSX_URL$ESSENTIALSX_PLUGIN_NAME"
+    done
 done
-
 # Geyser and Floodgate to allow Bedrock connections to the server
 GEYSER_DOWNLOAD_URL="https://download.geysermc.org/v2/projects/"
 for plugin_name in "geyser" "floodgate"; do
