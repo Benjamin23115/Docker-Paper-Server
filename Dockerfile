@@ -2,7 +2,7 @@
 ############## We use a java base image ################
 ########################################################
 FROM eclipse-temurin:21-jre AS build
-RUN apt-get update -y && apt-get install -y curl jq
+RUN apt-get update -y && apt-get install -y curl jq bash
 
 ARG version=1.20.4
 
@@ -20,7 +20,7 @@ RUN /getpaperserver.sh ${version}
 WORKDIR /opt/minecraft
 COPY ./getPlugins.sh /
 RUN chmod +x /getPlugins.sh
-RUN /getPlugins.sh
+RUN bash /getPlugins.sh
 
 ########################################################
 ############## Running environment #####################

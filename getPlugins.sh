@@ -20,21 +20,28 @@ mkdir plugins
 cd plugins
 # EssentialsX for useful commands
 # The indices are the order of the artifacts in the JSON response from the Jenkins API. 0 is the core EssentialsX plugin, 2 is chat, 7 is spawn.
+# Indices of plugins in the Jenkins API response
 indices=(0 2 7)
+
+# EssentialsX plugin URL
 ESSENTIALSX_URL="https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/"
+
+# Loop through the indices array
 for index in "${indices[@]}"; do
-    for plugin_name in "EssentialsX" "EssentialsXChat" "EssentialsXSpawn"; do
-        ESSENTIALSX_PLUGIN_NAME=$(curl -s "https://ci-api.essentialsx.net/job/EssentialsX/lastSuccessfulBuild/api/json" | jq -r ".artifacts[$index].displayPath")
-        # Remove quotes around the artifact name
-        ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME%\"}"
-        ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME#\"}"
-        download_plugin "$plugin_name" "$ESSENTIALSX_URL$ESSENTIALSX_PLUGIN_NAME"
-    done
-done
-# Geyser and Floodgate to allow Bedrock connections to the server
-GEYSER_DOWNLOAD_URL="https://download.geysermc.org/v2/projects/"
-for plugin_name in "geyser" "floodgate"; do
-    download_plugin "$plugin_name" "$GEYSER_DOWNLOAD_URL${plugin_name}/versions/latest/builds/latest/downloads/spigot"
+    # Get the plugin name using the index
+    case $index in
+    0) plugin_name="EssentialsX" ;;
+    2) plugin_name="EssentialsXChat" ;;
+    7) plugin_name="EssentialsXSpawn" ;;
+    esac
+
+    # Get the plugin download URL
+    ESSENTIALSX_PLUGIN_NAME=$(curl -s "https://ci-api.essentialsx.net/job/EssentialsX/lastSuccessfulBuild/api/json" | jq -r ".artifacts[$index].displayPath")
+    ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME%\"}"
+    ESSENTIALSX_PLUGIN_NAME="${ESSENTIALSX_PLUGIN_NAME#\"}"
+
+    # Download the plugin
+    download_plugin "$plugin_name" "$ESSENTIALSX_URL$ESSENTIALSX_PLUGIN_NAME"
 done
 
 # ViaBackwards + Version to allow previous game versions to connect
