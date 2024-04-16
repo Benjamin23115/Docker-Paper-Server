@@ -28,6 +28,14 @@ RUN bash /getPlugins.sh
 FROM eclipse-temurin:21-jre AS runtime
 ARG TARGETARCH
 
+# Add gosu
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y gosu; \
+    rm -rf /var/lib/apt/lists/*; \
+    # verify that the binary works
+    gosu nobody true
+
 # Working directory
 WORKDIR /data
 
