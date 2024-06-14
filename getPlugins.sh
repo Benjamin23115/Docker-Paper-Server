@@ -44,14 +44,15 @@ for index in "${indices[@]}"; do
     download_plugin "$plugin_name" "$ESSENTIALSX_URL$ESSENTIALSX_PLUGIN_NAME"
 done
 
+VIA_BACKWARDS_VERSION="4.10.2"
+VIA_REGULAR_VERSION="4.10.2"
+
 # ViaBackwards + Version to allow previous game versions to connect
-VIA_BACKWARDS_VERSION="4.9.2"
 for plugin_name in "ViaBackwards"; do
     VIA_DOWNLOAD_URL_PREFIX="https://github.com/ViaVersion/${plugin_name}/releases/download/${VIA_BACKWARDS_VERSION}/"
     download_plugin "$plugin_name" "$VIA_DOWNLOAD_URL_PREFIX${plugin_name}-${VIA_BACKWARDS_VERSION}.jar"
 done
 
-VIA_REGULAR_VERSION="4.9.3"
 for plugin_name in "ViaVersion"; do
     VIA_DOWNLOAD_URL_PREFIX="https://github.com/ViaVersion/${plugin_name}/releases/download/${VIA_REGULAR_VERSION}/"
     download_plugin "$plugin_name" "$VIA_DOWNLOAD_URL_PREFIX${plugin_name}-${VIA_REGULAR_VERSION}.jar"
